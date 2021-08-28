@@ -1,0 +1,11 @@
+<div class="wrapper">
+    <app-cardform
+      [chipImgPath]="'./assets/chip.png'"
+      [logoImgPath]="'./assets/visa.png'"
+      [frontBgImgPath]="'../assets/1.jpeg'"
+      [backBgImgPath]="'../assets/4.jpeg'"
+      [maskedCardNumber]="maskedCardNumber"
+      [defaultCardNumber]="defaultCardNumber"
+      (submitEvent)="onSubmitEvent($event)">
+  </app-cardform>
+  </div>

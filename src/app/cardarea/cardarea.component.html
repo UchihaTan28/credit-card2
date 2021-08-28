@@ -1,0 +1,77 @@
+<div [ngClass]="focusedElement === FocusedElement.CVV ? 'card-item -active':'card-item'">
+    <div class="card-item-side -front">
+        <div [ngClass]="focusStyle ? 'card-item-focus -active': 'card-item-focus'" [ngStyle]="focusStyle"></div>
+        <div class="card-item-cover">
+            <img class="card-item-bg" src="{{frontBgImgPath}}" />
+        </div>
+        <div class="card-item-wrapper">
+            <div class="card-item-top">
+                <img src="{{chipImgPath}}" class="card-item__chip" />
+                <div class="card-item-type">
+                    <img src="{{logoImgPath}}" class="card-item-typeImg" />
+                </div>
+            </div>
+            <label class="card-item-number" #cardNumber>
+                <span *ngFor="let cardPHLetter of currentCNoPH; let i = index">
+                    <span *appChanges2="cardModel.cardNumber.charAt(i)" [@slideFadeUp]="'in'"
+                        class="card-item-numberItem">
+                        <ng-container class="card-item-numberItem" *ngIf="getIsNoMasked(i); else showCNo">*
+                        </ng-container>
+                        <ng-template #showCNo>
+                            <ng-container class="card-item-numberItem"
+                                *ngIf="cardModel.cardNumber.length > i; else showPHLetter">
+                                {{cardModel.cardNumber.charAt(i)}}</ng-container>
+                        </ng-template>
+                        <ng-template class="card-item-numberItem" #showPHLetter>{{cardPHLetter}}
+                        </ng-template>
+                    </span>
+                </span>
+            </label>
+            <div class="card-item-content">
+                <label class="card-item-info" #cardName>
+                    <div class="card-item-holder">Card Holder</div>
+                    <div class="card-item-name" *ngIf="this.cardModel.cardName.length > 0; else namePH">
+                        <span class="card-item-nameItem"
+                            *ngFor="let PH of cardHolderNamePH; let i = index">
+                            <span *appChanges2="this.cardModel.cardName.charAt(i)"
+                                [@cardHolderFadeRight]="'in'">{{this.cardModel.cardName.charAt(i)}}</span>
+                        </span>
+                    </div>
+                    <ng-template class="card-item-name" #namePH><span [@cardHolderFadeUp]="'in'">Full
+                            Name</span></ng-template>
+                </label>
+                <div class="card-item__date" #expireDate>
+                    <label class="card-item__dateTitle">Expires</label>
+                    <label class="card-item__dateItem" *appChanges1="cardModel.expMonth"
+                        [@slideFadeUp]="'in'">
+                        <span
+                            *ngIf="cardModel.expMonth; else monthPH">{{cardModel.expMonth}}</span>
+                        <ng-template #monthPH>MM</ng-template>
+                    </label>
+                    /
+                    <label for="cardYear" class="card-item__dateItem" *appChanges1="cardModel.expYear"
+                        [@slideFadeUp]="'in'">
+                        <span
+                            *ngIf="cardModel.expYear; else yrPH">{{cardModel.expYear.slice(2,4)}}</span>
+                        <ng-template #yrPH>YY</ng-template>
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card-item-side -back">
+        <div class="card-item-cover">
+            <img class="card-item-bg" src="{{backBgImgPath}}" />
+        </div>
+        <div class="card-item__band"></div>
+        <div class="card-item__cvv">
+            <div class="card-item__cvvTitle">CVV</div>
+            <div class="card-item__cvvBand">
+                <span *ngFor="let n of cardModel.cvv.split('')">*</span>
+            </div>
+            <div class="card-item-type">
+                <img src="{{logoImgPath}}" class="card-item-typeImg" />
+            </div>
+        </div>
+    </div>
+</div>

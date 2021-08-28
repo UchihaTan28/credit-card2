@@ -1,0 +1,61 @@
+<div class="card-form">
+  <div class="card-body">
+    <app-cardarea [cardModel]="cardModel" [chipImgPath]="chipImgPath" [logoImgPath]="logoImgPath"
+      [backBgImgPath]="backBgImgPath" [frontBgImgPath]="frontBgImgPath" [defaultCardNumber]="defaultCardNumber"
+      [displayed_cnumber]="displayed_cnumber" [focusedElement]="focusedElement"></app-cardarea>
+  </div>
+  <div class="card-form-inputs">
+    <div class="card-input">
+      <label for="cardNumber" class="card-input-lab">Card Number</label>
+      
+      <input name="chrome-autofill-dummy3" style='display:none' disabled (input)="onCardNoChange($event)" (focus)="onCardNoFocus()"
+      (blur)="onCardNoBlur()" autocomplete="off" />
+      <input name="chrome-autofill-dummy4" style='display:none' disabled (input)="onCardNoChange($event)" (focus)="onCardNoFocus()"
+      (blur)="onCardNoBlur()" autocomplete="off" />
+      <input class="card-input-inner" type="tel" [id]="cardNoId" [attr.maxlength]="cardNumberMaxLength"
+        [value]="displayed_cnumber" (input)="onCardNoChange($event)" (focus)="onCardNoFocus()"
+        (blur)="onCardNoBlur()" autocomplete="off" />
+        <input name="chrome-autofill-dummy5" style='display:none' disabled (input)="onCardNoChange($event)" (focus)="onCardNoFocus()"
+        (blur)="onCardNoBlur()" autocomplete="off" />
+        
+    </div>
+    <div class="card-input">
+      <label for="cardName" class="card-input-lab">Card Name</label>
+      <input name="chrome-autofill-dummy1" style='display:none' (keyup)='onCNameKeyPress($event)' disabled autocomplete="off" (focus)="onCNameFocus()" (blur)="onBlur()"/>
+      <input name="chrome-autofill-dummy2" style='display:none' (keyup)='onCNameKeyPress($event)' disabled autocomplete="off" (focus)="onCNameFocus()" (blur)="onBlur()"/>
+        
+      <input class="card-input-inner" type="text" [id]="cardNameId" [(ngModel)]="cardModel.cardName"
+        (keyup)='onCNameKeyPress($event)' autocomplete="off" (focus)="onCNameFocus()" (blur)="onBlur()" />
+        
+    </div>
+    <div class="card-form-row">
+      <div class="card-form-col">
+        <div class="card-form__group">
+            <label for="cardMonth" class="card-input-lab">Expiration Date</label>
+            <select class="card-input-inner -select" id="monthSelect" [(ngModel)]="cardModel.expMonth"
+            (focus)="onDateFocus()" (blur)="onBlur()">
+            <option value disabled selected>Month</option>
+            <option *ngFor="let element of [].constructor(12); let i = index" [value]="(i+1) < 10 ? '0' + (i+1) : (i+1)">
+            {{generateMonth((i+1))}}
+          </option>
+          </select>
+          <select class="card-input-inner -select" [id]="yrSelectId" [(ngModel)]="cardModel.expYear"
+          (change)="onYrChange()" (focus)="onDateFocus()" (blur)="onBlur()">
+          <option value disabled selected>Year</option>
+          <option *ngFor="let element of [].constructor(12); let i = index" [value]="minCardYr + i">
+            {{i + minCardYr}}
+          </option>
+            </select>
+        </div>
+      </div>
+      <div class="card-form-col -cvv">
+        <div class="card-input">
+          <label for="cardCvv" class="card-input-lab">CVV</label>
+          <input class="card-input-inner" type="tel" id="cardCvvId" maxlength="4" autocomplete="off"
+            [value]="cvv_displayed" (blur)="onCVVBlur()" (focus)="onCVVFocus()" (input)="onCVVChange($event)" />
+        </div>
+      </div>
+    </div>
+    <button class="card-form__button" (click)="submitEvent.emit(cardModel)">Submit</button>
+  </div>
+</div>
